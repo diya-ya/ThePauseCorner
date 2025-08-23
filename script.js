@@ -451,13 +451,9 @@ function loadRewindCorner() {
                     <div class="bg-gradient-to-br ${currentTheme.cardBg} ${currentTheme.text} p-8 rounded-2xl shadow-2xl max-w-2xl mx-auto">
                         <div class="text-6xl mb-4">${currentTheme.emoji}</div>
                         <h3 class="text-2xl font-semibold mb-3">${currentTheme.name} Activities</h3>
-                        <p class="text-lg opacity-80 mb-6">
+                        <p class="text-lg opacity-80">
                             ${getThemeDescription(currentMood)}
                         </p>
-                        <div class="grid grid-cols-3 gap-4 text-sm opacity-70">
-                            ${getActivityTypes(currentMood)}
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Activity Display -->
@@ -497,24 +493,6 @@ function getThemeDescription(mood) {
     return descriptions[mood] || 'Mindful activities tailored to your mood';
 }
 
-// Helper function to get activity types for each theme
-function getActivityTypes(mood) {
-    const types = {
-        'calm-galaxy': ['Breathing', 'Audio', 'Writing'],
-        'soft-bloom': ['Writing', 'Drawing', 'Audio'],
-        'nature-breeze': ['Senses', 'Gazing', 'Counting'],
-        'playful-pop': ['Movement', 'Drawing', 'Singing'],
-        'minimal-clean': ['Breathing', 'Reflection', 'Audio']
-    };
-    const themeTypes = types[mood] || ['Breathing', 'Audio', 'Writing'];
-    
-    return themeTypes.map(type => `
-        <div class="bg-gradient-to-r ${currentTheme.buttonBg} bg-opacity-20 p-2 rounded-lg">
-            ${type}
-        </div>
-    `).join('');
-}
-
 function getRandomActivity() {
     const activityContent = document.getElementById('activityContent');
     const themeActivities = rewindActivities[currentMood] || rewindActivities['calm-galaxy'];
@@ -524,24 +502,26 @@ function getRandomActivity() {
     let interactiveElement = '';
     
     switch(randomActivity.interactive) {
-        case 'breathing':
-            interactiveElement = `
-                <div class="mb-6">
-                    <div class="text-6xl mb-4">${randomActivity.emoji}</div>
-                    <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-r ${currentTheme.buttonBg} opacity-20 animate-pulse"></div>
-                </div>
-            `;
-            break;
-        case 'audio':
-            interactiveElement = `
-                <div class="mb-6">
-                    <div class="text-6xl mb-4">${randomActivity.emoji}</div>
-                    <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-r ${currentTheme.buttonBg} flex items-center justify-center text-white text-2xl">
-                        🔊
+            case 'breathing':
+                interactiveElement = `
+                    <div class="mb-6">
+                        <div class="text-6xl mb-4">${randomActivity.emoji}</div>
+                        <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-r ${currentTheme.buttonBg} opacity-20 breathing-animation"></div>
+                        <div class="text-lg mt-4 opacity-70">Breathe in... and out...</div>
                     </div>
-                </div>
-            `;
-            break;
+                `;
+                break;
+            case 'audio':
+                interactiveElement = `
+                    <div class="mb-6">
+                        <div class="text-6xl mb-4">${randomActivity.emoji}</div>
+                        <button onclick="playAudio('${randomActivity.theme}')" class="w-20 h-20 mx-auto rounded-full bg-gradient-to-r ${currentTheme.buttonBg} flex items-center justify-center text-white text-2xl hover:scale-110 transition-transform duration-300">
+                            🔊
+                        </button>
+                        <div class="text-lg mt-4 opacity-70">Click to play audio</div>
+                    </div>
+                `;
+                break;
         case 'drawing':
             interactiveElement = `
                 <div class="mb-6">
@@ -694,15 +674,93 @@ async function addMessage() {
     }
 }
 
-// Add CSS for spinwheel animation
+// Add CSS for animation
 const style = document.createElement('style');
 style.textContent = `
     @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(720deg); }
     }
+    
+    @keyframes breathing {
+        0%, 100% { 
+            transform: scale(1); 
+            opacity: 0.2; 
+        }
+        50% { 
+            transform: scale(1.3); 
+            opacity: 0.6; 
+        }
+    }
+    
+    .breathing-animation {
+        animation: breathing 6s ease-in-out infinite;
+    }
 `;
 document.head.appendChild(style);
+
+// Audio functionality for different themes
+function playAudio(theme) {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // Create different audio patterns for each theme
+    let frequency, duration, type;
+    
+    switch(theme) {
+        case 'galaxy':
+            // Space-like ambient sound
+            frequency = 220;
+            duration = 0.3;
+            type = 'sine';
+            break;
+        case 'bloom':
+            // Gentle bird-like sound
+            frequency = 440;
+            duration = 0.2;
+            type = 'triangle';
+            break;
+        case 'breeze':
+            // Wind-like sound
+            frequency = 330;
+            duration = 0.4;
+            type = 'sawtooth';
+            break;
+        case 'pop':
+            // Cheerful sound
+            frequency = 523;
+            duration = 0.15;
+            type = 'square';
+            break;
+        case 'minimal':
+            // Clean, simple sound
+            frequency = 196;
+            duration = 0.5;
+            type = 'sine';
+            break;
+        default:
+            frequency = 440;
+            duration = 0.3;
+            type = 'sine';
+    }
+    
+    // Create oscillator
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+    oscillator.type = type;
+    
+    // Fade in and out
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.1);
+    gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + duration);
+}
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', async function() {
