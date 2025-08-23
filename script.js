@@ -602,8 +602,8 @@ function getProTip(interactiveType) {
     const proTips = {
         'breathing': 'Find a comfortable position and let your breath flow naturally.',
         'audio': 'Close your eyes and let the sound wash over you completely.',
-        'drawing': 'Don't worry about perfection - let your hand move freely.',
-        'movement': 'Move with joy and don't hold back - this is your moment!',
+        'drawing': "Don't worry about perfection - let your hand move freely.",
+        'movement': "Move with joy and don't hold back - this is your moment!",
         'senses': 'Take your time with each sense - savor the experience.',
         'gazing': 'Let your eyes soften and your mind wander gently.',
         'counting': 'Notice the details as you count - each one is unique.',
