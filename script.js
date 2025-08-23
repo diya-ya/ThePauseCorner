@@ -1,4 +1,3 @@
-// Global variables
 let currentMood = '';
 let currentTheme = {};
 
@@ -114,57 +113,139 @@ const phrases = [
     "You are enough, even if you don't feel like it.",
 ];
 
-// Rewind corner activities
-const rewindActivities = [
-    {
-        title: "1-Minute Breath",
-        description: "Close your eyes and take 4 slow breaths in, hold for 4, breathe out for 6",
-        emoji: "🫁",
-        duration: "1 min"
-    },
-    {
-        title: "Name 3 Good Smells",
-        description: "Think of three things that smell wonderful to you",
-        emoji: "👃",
-        duration: "30 sec"
-    },
-    {
-        title: "Silly Doodle",
-        description: "Draw a simple shape and turn it into something fun",
-        emoji: "✏️",
-        duration: "2 min"
-    },
-    {
-        title: "Gratitude Moment",
-        description: "Name one thing you're grateful for right now",
-        emoji: "🙏",
-        duration: "30 sec"
-    },
-    {
-        title: "Stretch Break",
-        description: "Stand up and reach for the sky, then touch your toes",
-        emoji: "🤸‍♀️",
-        duration: "1 min"
-    },
-    {
-        title: "Color Hunt",
-        description: "Look around and find 5 things of your favorite color",
-        emoji: "🎨",
-        duration: "1 min"
-    },
-    {
-        title: "Kind Words",
-        description: "Say something nice to yourself in the mirror",
-        emoji: "💬",
-        duration: "30 sec"
-    },
-    {
-        title: "Nature Sound",
-        description: "Listen to the sounds around you for 1 minute",
-        emoji: "🌿",
-        duration: "1 min"
-    }
-];
+// Rewind corner activities - Theme-based interactive activities
+const rewindActivities = {
+    'calm-galaxy': [
+        {
+            title: "1-Min Star-Breath",
+            description: "Inhale as the stars glow brighter, exhale as they dim. Watch the cosmic rhythm of your breath.",
+            emoji: "⭐",
+            duration: "1 min",
+            interactive: "breathing",
+            theme: "galaxy"
+        },
+        {
+            title: "Lo-fi Space Loop",
+            description: "Listen to a short 30-second ambient space sound loop. Let your mind drift among the stars.",
+            emoji: "🌌",
+            duration: "30 sec",
+            interactive: "audio",
+            theme: "galaxy"
+        },
+        {
+            title: "Cosmic Gratitude",
+            description: "Write down three vast things in the universe that you love. Feel the wonder of existence.",
+            emoji: "🌠",
+            duration: "2 min",
+            interactive: "writing",
+            theme: "galaxy"
+        }
+    ],
+    'soft-bloom': [
+        {
+            title: "3 Tiny Blooms",
+            description: "Note down three small beautiful things you noticed today. Appreciate the little moments.",
+            emoji: "🌸",
+            duration: "1 min",
+            interactive: "writing",
+            theme: "bloom"
+        },
+        {
+            title: "Petal Doodle",
+            description: "Grab a pen and quickly draw a flower with five petals, then give it a beautiful name.",
+            emoji: "🌺",
+            duration: "2 min",
+            interactive: "drawing",
+            theme: "bloom"
+        },
+        {
+            title: "Birdsong Sip",
+            description: "Listen to a short airy sound like birdsong for 30 seconds. Feel the gentle breeze.",
+            emoji: "🐦",
+            duration: "30 sec",
+            interactive: "audio",
+            theme: "bloom"
+        }
+    ],
+    'nature-breeze': [
+        {
+            title: "5-Sense Ground",
+            description: "Ground yourself: 5 things you see, 4 you touch, 3 you hear, 2 you smell, 1 you taste.",
+            emoji: "🌿",
+            duration: "2 min",
+            interactive: "senses",
+            theme: "breeze"
+        },
+        {
+            title: "Window Breath",
+            description: "Spend one minute looking out the window with a soft gaze. Let your eyes rest gently.",
+            emoji: "🪟",
+            duration: "1 min",
+            interactive: "gazing",
+            theme: "breeze"
+        },
+        {
+            title: "Leaf Count",
+            description: "Count twenty green things around you. Notice the abundance of life.",
+            emoji: "🍃",
+            duration: "1 min",
+            interactive: "counting",
+            theme: "breeze"
+        }
+    ],
+    'playful-pop': [
+        {
+            title: "Confetti Stretch",
+            description: "Stand up, shake your body for 10 seconds like confetti, and smile big!",
+            emoji: "🎊",
+            duration: "10 sec",
+            interactive: "movement",
+            theme: "pop"
+        },
+        {
+            title: "Blob Buddy",
+            description: "Doodle a blob on paper and give it a funny name. Make it your new friend!",
+            emoji: "🫧",
+            duration: "1 min",
+            interactive: "drawing",
+            theme: "pop"
+        },
+        {
+            title: "30-Sec Bop",
+            description: "Hum along to a cheerful 30-second rhythm. Feel the joy in your voice!",
+            emoji: "🎵",
+            duration: "30 sec",
+            interactive: "singing",
+            theme: "pop"
+        }
+    ],
+    'minimal-clean': [
+        {
+            title: "2-Min Quiet",
+            description: "Focus on your breathing for two minutes while imagining a gentle ring expanding and contracting.",
+            emoji: "⭕",
+            duration: "2 min",
+            interactive: "breathing",
+            theme: "minimal"
+        },
+        {
+            title: "Let One Go",
+            description: "Release one non-urgent task from your day — give yourself permission to let it go.",
+            emoji: "🕊️",
+            duration: "1 min",
+            interactive: "reflection",
+            theme: "minimal"
+        },
+        {
+            title: "Instrumental Sip",
+            description: "Listen to a soft instrumental tone pattern for a few moments. Pure, simple sound.",
+            emoji: "🎼",
+            duration: "30 sec",
+            interactive: "audio",
+            theme: "minimal"
+        }
+    ]
+};
 
 // Uplift wall messages (will be loaded from backend)
 let upliftMessages = [];
@@ -351,15 +432,32 @@ function loadRewindCorner() {
     const rewindCornerPage = document.getElementById('rewindCornerPage');
     rewindCornerPage.innerHTML = `
         <div class="min-h-screen flex items-center justify-center p-4">
-            <div class="max-w-4xl mx-auto text-center">
+            <div class="max-w-5xl mx-auto text-center">
                 <!-- Header -->
                 <div class="mb-12">
                     <h1 class="text-5xl md:text-6xl font-bold ${currentTheme.text} mb-4">
                         🔄 Rewind Corner
                     </h1>
-                    <p class="text-xl ${currentTheme.text} opacity-80">
+                    <p class="text-xl ${currentTheme.text} opacity-80 mb-2">
                         Quick activities for rest and play
                     </p>
+                    <p class="text-lg ${currentTheme.text} opacity-60">
+                        Tailored to your ${currentTheme.name.toLowerCase()} mood
+                    </p>
+                </div>
+
+                <!-- Theme Preview -->
+                <div class="mb-12">
+                    <div class="bg-gradient-to-br ${currentTheme.cardBg} ${currentTheme.text} p-8 rounded-2xl shadow-2xl max-w-2xl mx-auto">
+                        <div class="text-6xl mb-4">${currentTheme.emoji}</div>
+                        <h3 class="text-2xl font-semibold mb-3">${currentTheme.name} Activities</h3>
+                        <p class="text-lg opacity-80 mb-6">
+                            ${getThemeDescription(currentMood)}
+                        </p>
+                        <div class="grid grid-cols-3 gap-4 text-sm opacity-70">
+                            ${getActivityTypes(currentMood)}
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Activity Display -->
@@ -387,19 +485,133 @@ function loadRewindCorner() {
     `;
 }
 
+// Helper function to get theme descriptions
+function getThemeDescription(mood) {
+    const descriptions = {
+        'calm-galaxy': 'Cosmic activities to help you find peace among the stars',
+        'soft-bloom': 'Gentle, flower-inspired moments of mindfulness',
+        'nature-breeze': 'Grounding activities that connect you with the natural world',
+        'playful-pop': 'Fun, energetic activities to boost your mood and energy',
+        'minimal-clean': 'Simple, focused activities for clarity and calm'
+    };
+    return descriptions[mood] || 'Mindful activities tailored to your mood';
+}
+
+// Helper function to get activity types for each theme
+function getActivityTypes(mood) {
+    const types = {
+        'calm-galaxy': ['Breathing', 'Audio', 'Writing'],
+        'soft-bloom': ['Writing', 'Drawing', 'Audio'],
+        'nature-breeze': ['Senses', 'Gazing', 'Counting'],
+        'playful-pop': ['Movement', 'Drawing', 'Singing'],
+        'minimal-clean': ['Breathing', 'Reflection', 'Audio']
+    };
+    const themeTypes = types[mood] || ['Breathing', 'Audio', 'Writing'];
+    
+    return themeTypes.map(type => `
+        <div class="bg-gradient-to-r ${currentTheme.buttonBg} bg-opacity-20 p-2 rounded-lg">
+            ${type}
+        </div>
+    `).join('');
+}
+
 function getRandomActivity() {
     const activityContent = document.getElementById('activityContent');
-    const randomActivity = rewindActivities[Math.random() * rewindActivities.length | 0];
+    const themeActivities = rewindActivities[currentMood] || rewindActivities['calm-galaxy'];
+    const randomActivity = themeActivities[Math.random() * themeActivities.length | 0];
+    
+    // Create interactive elements based on activity type
+    let interactiveElement = '';
+    
+    switch(randomActivity.interactive) {
+        case 'breathing':
+            interactiveElement = `
+                <div class="mb-6">
+                    <div class="text-6xl mb-4">${randomActivity.emoji}</div>
+                    <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-r ${currentTheme.buttonBg} opacity-20 animate-pulse"></div>
+                </div>
+            `;
+            break;
+        case 'audio':
+            interactiveElement = `
+                <div class="mb-6">
+                    <div class="text-6xl mb-4">${randomActivity.emoji}</div>
+                    <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-r ${currentTheme.buttonBg} flex items-center justify-center text-white text-2xl">
+                        🔊
+                    </div>
+                </div>
+            `;
+            break;
+        case 'drawing':
+            interactiveElement = `
+                <div class="mb-6">
+                    <div class="text-6xl mb-4">${randomActivity.emoji}</div>
+                    <div class="w-20 h-20 mx-auto border-2 border-dashed border-current opacity-40 rounded-lg flex items-center justify-center">
+                        ✏️
+                    </div>
+                </div>
+            `;
+            break;
+        case 'movement':
+            interactiveElement = `
+                <div class="mb-6">
+                    <div class="text-6xl mb-4">${randomActivity.emoji}</div>
+                    <div class="w-20 h-20 mx-auto bg-gradient-to-r ${currentTheme.buttonBg} rounded-full animate-bounce flex items-center justify-center text-white text-2xl">
+                        💃
+                    </div>
+                </div>
+            `;
+            break;
+        case 'senses':
+            interactiveElement = `
+                <div class="mb-6">
+                    <div class="text-6xl mb-4">${randomActivity.emoji}</div>
+                    <div class="grid grid-cols-5 gap-2 max-w-xs mx-auto">
+                        <div class="w-8 h-8 bg-gradient-to-r ${currentTheme.buttonBg} rounded-full opacity-60"></div>
+                        <div class="w-8 h-8 bg-gradient-to-r ${currentTheme.buttonBg} rounded-full opacity-50"></div>
+                        <div class="w-8 h-8 bg-gradient-to-r ${currentTheme.buttonBg} rounded-full opacity-40"></div>
+                        <div class="w-8 h-8 bg-gradient-to-r ${currentTheme.buttonBg} rounded-full opacity-30"></div>
+                        <div class="w-8 h-8 bg-gradient-to-r ${currentTheme.buttonBg} rounded-full opacity-20"></div>
+                    </div>
+                </div>
+            `;
+            break;
+        default:
+            interactiveElement = `<div class="text-6xl mb-6">${randomActivity.emoji}</div>`;
+    }
     
     activityContent.innerHTML = `
-        <div class="text-8xl mb-6">${randomActivity.emoji}</div>
+        ${interactiveElement}
         <h3 class="text-3xl font-semibold mb-4">${randomActivity.title}</h3>
         <p class="text-xl opacity-80 mb-4">${randomActivity.description}</p>
-        <div class="text-lg opacity-70 mb-8">⏱️ ${randomActivity.duration}</div>
+        <div class="text-lg opacity-70 mb-6">⏱️ ${randomActivity.duration}</div>
+        
+        <!-- Interactive Instructions -->
+        <div class="bg-gradient-to-r ${currentTheme.cardBg} p-4 rounded-xl mb-6 opacity-80">
+            <p class="text-sm font-medium">💡 <strong>Pro tip:</strong> ${getProTip(randomActivity.interactive)}</p>
+        </div>
+        
         <button onclick="getRandomActivity()" class="bg-gradient-to-r ${currentTheme.buttonBg} text-white px-6 py-3 rounded-full font-semibold hover:scale-105 transition-transform duration-300">
             Another Activity
         </button>
     `;
+}
+
+// Helper function to get pro tips for different activity types
+function getProTip(interactiveType) {
+    const proTips = {
+        'breathing': 'Find a comfortable position and let your breath flow naturally.',
+        'audio': 'Close your eyes and let the sound wash over you completely.',
+        'drawing': 'Don't worry about perfection - let your hand move freely.',
+        'movement': 'Move with joy and don't hold back - this is your moment!',
+        'senses': 'Take your time with each sense - savor the experience.',
+        'gazing': 'Let your eyes soften and your mind wander gently.',
+        'counting': 'Notice the details as you count - each one is unique.',
+        'singing': 'Let your voice be playful and light - no judgment here!',
+        'reflection': 'Be honest with yourself - what truly matters to you?',
+        'writing': 'Write from your heart, not your head.'
+    };
+    return proTips[interactiveType] || 'Take your time and enjoy the moment.';
 }
 
 // Uplift Wall functionality
