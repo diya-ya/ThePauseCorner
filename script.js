@@ -285,23 +285,30 @@ function selectMood(mood) {
 }
 
 function showPage(pageId) {
+    console.log('showPage called with:', pageId); // Debug log
+    
     // Hide all pages
     document.querySelectorAll('[id$="Page"]').forEach(page => {
         page.classList.add('hidden');
     });
     
     // Show selected page
-    document.getElementById(pageId).classList.remove('hidden');
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.remove('hidden');
+        console.log('Page shown:', pageId); // Debug log
+    } else {
+        console.error('Page not found:', pageId); // Debug log
+    }
 }
 
 function goBack() {
-    if (currentPage === 'mainMenuPage') {
-        showPage('welcomePage');
-        // Reset body to default theme
-        document.body.className = 'min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50';
-    } else {
-        showPage('mainMenuPage');
-    }
+    console.log('goBack function called'); // Debug log
+    // Always go back to welcome page and reset theme
+    showPage('welcomePage');
+    // Reset body to default theme
+    document.body.className = 'min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50';
+    console.log('Navigation completed'); // Debug log
 }
 
 // Main menu
@@ -767,6 +774,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Load messages from backend
     await loadMessages();
     
+    // Make functions globally accessible
+    window.goBack = goBack;
+    window.showPage = showPage;
+    window.selectMood = selectMood;
+    
     // App is ready
-    console.log('The Pause Corner is ready! ✨');
+    console.log('The Pause Corner is ready');
 });
