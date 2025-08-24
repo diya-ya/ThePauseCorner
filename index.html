@@ -8,91 +8,84 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        .mood-card { transition: all 0.3s ease; }
-        .mood-card:hover { transform: translateY(-4px); }
-        .floating { animation: float 6s ease-in-out infinite; }
+        .mood-card { transition: all 0.4s ease; }
+        .mood-card:hover { transform: translateY(-6px); }
+        .floating { animation: float 8s ease-in-out infinite; }
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
         }
-        .sparkle { animation: sparkle 2s ease-in-out infinite; }
-        @keyframes sparkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.1); }
-        }
-        .welcome-text { animation: fadeInUp 1s ease-out; }
+        .welcome-text { animation: fadeInUp 1.2s ease-out; }
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+<body class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
     <!-- Welcome Page -->
     <div id="welcomePage" class="min-h-screen flex items-center justify-center p-4">
         <div class="max-w-5xl mx-auto text-center">
-            <!-- Floating Elements (more subtle) -->
-            <div class="absolute top-16 left-16 text-2xl floating opacity-60">✨</div>
-            <div class="absolute top-24 right-24 text-xl floating opacity-60" style="animation-delay: 1s;">🌟</div>
-            <div class="absolute bottom-24 left-24 text-lg floating opacity-60" style="animation-delay: 2s;">💫</div>
-            <div class="absolute bottom-16 right-16 text-xl floating opacity-60" style="animation-delay: 3s;">⭐</div>
+            <!-- Subtle Floating Elements -->
+            <div class="absolute top-16 left-16 text-2xl floating opacity-30 text-slate-400">●</div>
+            <div class="absolute top-24 right-24 text-xl floating opacity-20 text-slate-400" style="animation-delay: 1s;">○</div>
+            <div class="absolute bottom-24 left-24 text-lg floating opacity-25 text-slate-400" style="animation-delay: 2s;">●</div>
+            <div class="absolute bottom-16 right-16 text-xl floating opacity-30 text-slate-400" style="animation-delay: 3s;">○</div>
             
             <!-- Main Greeting Section -->
-            <div class="mb-16 welcome-text">
-                <h1 class="text-5xl md:text-7xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent mb-6">
+            <div class="mb-20 welcome-text">
+                <h1 class="text-5xl md:text-7xl font-light text-slate-800 mb-8 tracking-tight">
                     The Pause Corner
                 </h1>
-                <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-8">
-                    Welcome to your digital sanctuary. Take a moment to breathe, reflect, and find your center.
+                <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-8 font-light">
+                    A mindful space for reflection and renewal. Choose your atmosphere to create a moment of peace.
                 </p>
-                <p class="text-base text-gray-500 max-w-xl mx-auto">
-                    Choose your mood below to create a peaceful space that matches your energy today.
+                <p class="text-base text-slate-500 max-w-xl mx-auto font-light">
+                    Select your preferred environment below to begin your mindful journey.
                 </p>
             </div>
 
-            <!-- Mood Selection - More Compact and Elegant -->
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 max-w-4xl mx-auto mb-12">
+            <!-- Mood Selection - Elegant and Minimal -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-6 max-w-4xl mx-auto mb-16">
                 <!-- Calm Galaxy -->
-                <div class="mood-card bg-gradient-to-br from-slate-800 via-blue-800 to-indigo-800 text-white p-6 rounded-xl shadow-lg cursor-pointer hover:shadow-blue-500/25" onclick="selectMood('calm-galaxy')">
-                    <div class="text-4xl mb-3">🌌</div>
-                    <h3 class="text-sm font-semibold mb-1">Calm Galaxy</h3>
-                    <p class="text-xs text-blue-200 opacity-80">Dark blues & stars</p>
+                <div class="mood-card bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 text-white p-6 rounded-xl shadow-lg cursor-pointer hover:shadow-slate-500/20 border border-slate-600/30" onclick="selectMood('calm-galaxy')">
+                    <div class="text-3xl mb-3 opacity-80">●</div>
+                    <h3 class="text-sm font-medium mb-1 tracking-wide">Cosmic</h3>
+                    <p class="text-xs text-slate-300 opacity-70 tracking-wide">Deep space serenity</p>
                 </div>
 
                 <!-- Soft Bloom -->
-                <div class="mood-card bg-gradient-to-br from-pink-200 via-rose-200 to-purple-200 text-gray-800 p-6 rounded-xl shadow-lg cursor-pointer hover:shadow-pink-500/25" onclick="selectMood('soft-bloom')">
-                    <div class="text-4xl mb-3">🌸</div>
-                    <h3 class="text-sm font-semibold mb-1">Soft Bloom</h3>
-                    <p class="text-xs text-gray-600 opacity-80">Pastel flowers</p>
+                <div class="mood-card bg-gradient-to-br from-rose-100 via-pink-100 to-purple-100 text-slate-700 p-6 rounded-xl shadow-lg cursor-pointer hover:shadow-rose-500/20 border border-rose-200/50" onclick="selectMood('soft-bloom')">
+                    <div class="text-3xl mb-3 opacity-80">○</div>
+                    <h3 class="text-sm font-medium mb-1 tracking-wide">Serene</h3>
+                    <p class="text-xs text-slate-600 opacity-70 tracking-wide">Gentle tranquility</p>
                 </div>
 
                 <!-- Nature Breeze -->
-                <div class="mood-card bg-gradient-to-br from-green-200 via-emerald-200 to-teal-200 text-gray-800 p-6 rounded-xl shadow-lg cursor-pointer hover:shadow-green-500/25" onclick="selectMood('nature-breeze')">
-                    <div class="text-4xl mb-3">🌿</div>
-                    <h3 class="text-sm font-semibold mb-1">Nature Breeze</h3>
-                    <p class="text-xs text-gray-600 opacity-80">Greens & leaves</p>
+                <div class="mood-card bg-gradient-to-br from-emerald-100 via-teal-100 to-cyan-100 text-slate-700 p-6 rounded-xl shadow-lg cursor-pointer hover:shadow-emerald-500/20 border border-emerald-200/50" onclick="selectMood('nature-breeze')">
+                    <div class="text-3xl mb-3 opacity-80">●</div>
+                    <h3 class="text-sm font-medium mb-1 tracking-wide">Natural</h3>
+                    <p class="text-xs text-slate-600 opacity-70 tracking-wide">Organic grounding</p>
                 </div>
 
                 <!-- Playful Pop -->
-                <div class="mood-card bg-gradient-to-br from-yellow-200 via-orange-200 to-red-200 text-gray-800 p-6 rounded-xl shadow-lg cursor-pointer hover:shadow-orange-500/25" onclick="selectMood('playful-pop')">
-                    <div class="text-4xl mb-3">🌈</div>
-                    <h3 class="text-sm font-semibold mb-1">Playful Pop</h3>
-                    <p class="text-xs text-gray-600 opacity-80">Bright & bubbly</p>
+                <div class="mood-card bg-gradient-to-br from-amber-100 via-orange-100 to-red-100 text-slate-700 p-6 rounded-xl shadow-lg cursor-pointer hover:shadow-amber-500/20 border border-amber-200/50" onclick="selectMood('playful-pop')">
+                    <div class="text-3xl mb-3 opacity-80">○</div>
+                    <h3 class="text-sm font-medium mb-1 tracking-wide">Vibrant</h3>
+                    <p class="text-xs text-slate-600 opacity-70 tracking-wide">Energetic clarity</p>
                 </div>
 
                 <!-- Minimal Clean -->
-                <div class="mood-card bg-gradient-to-br from-gray-100 via-slate-100 to-zinc-100 text-gray-700 p-6 rounded-xl shadow-lg cursor-pointer hover:shadow-gray-500/25" onclick="selectMood('minimal-clean')">
-                    <div class="text-4xl mb-3">🪞</div>
-                    <h3 class="text-sm font-semibold mb-1">Minimal Clean</h3>
-                    <p class="text-xs text-gray-600 opacity-80">Clean & simple</p>
+                <div class="mood-card bg-gradient-to-br from-slate-100 via-gray-100 to-zinc-100 text-slate-600 p-6 rounded-xl shadow-lg cursor-pointer hover:shadow-slate-500/20 border border-slate-200/50" onclick="selectMood('minimal-clean')">
+                    <div class="text-3xl mb-3 opacity-80">●</div>
+                    <h3 class="text-sm font-medium mb-1 tracking-wide">Minimal</h3>
+                    <p class="text-xs text-slate-500 opacity-70 tracking-wide">Pure simplicity</p>
                 </div>
             </div>
 
-            <!-- Gentle Call to Action -->
+            <!-- Elegant Call to Action -->
             <div class="text-center">
-                <div class="inline-block text-lg sparkle">✨</div>
-                <span class="text-gray-400 ml-2 text-sm">Select your mood to begin your journey</span>
-                <div class="inline-block text-lg sparkle ml-2">✨</div>
+                <div class="inline-block text-sm text-slate-400 tracking-wide">Select your atmosphere to begin</div>
             </div>
         </div>
     </div>
